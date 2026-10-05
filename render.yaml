@@ -12,6 +12,6 @@ services:
       - key: CHAT_PROVIDER
         value: huggingface
       - key: HF_MODEL
-        value: Qwen/Qwen2.5-7B-Instruct:fastest
+        value: meta-llama/Llama-3.1-8B-Instruct
       - key: HF_TOKEN
         sync: false

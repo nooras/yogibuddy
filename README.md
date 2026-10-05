@@ -13,7 +13,7 @@ Requirements: Node.js 18+, npm, and [Ollama](https://ollama.com/) installed on t
 5. Start the app and built-in chat API: `npm run dev`
 6. Open the Vite URL shown in the terminal (normally `http://localhost:5173`).
 
-Vite serves the `/api/chat` and `/api/health` endpoints directly, so no second terminal or `npm run server` is needed during development. Chat calls the local Ollama server; no model API key or paid AI account is needed. Change `OLLAMA_MODEL` in `.env` to another model installed with Ollama. If Ollama or the model is unavailable, chat displays a clearly labelled conservative built-in response.
+Vite serves the `/api/chat` and `/api/health` endpoints directly, so no second terminal or `npm run server` is needed during development. Chat calls the local Ollama server by default; no model API key or paid AI account is needed. Change `OLLAMA_MODEL` in `.env` to another model installed with Ollama. To use hosted chat locally instead, set `CHAT_PROVIDER=huggingface` and add your Hugging Face token to `.env`. If the selected provider is unavailable or not configured, chat displays a clearly labelled conservative built-in response.
 
 ## Deploy publicly with working chat
 
@@ -22,7 +22,7 @@ The production setup uses Vercel for the frontend and serverless API, with Huggi
 1. Push this project to `https://github.com/nooras/yogibuddy`.
 2. Create a Hugging Face fine-grained access token with **Make calls to Inference Providers** permission at [Hugging Face token settings](https://huggingface.co/settings/tokens).
 3. Import `nooras/yogibuddy` into [Vercel](https://vercel.com/new) and deploy with the detected defaults. `vercel.json` configures the Vite build and the 60-second chat function.
-4. In Vercel project **Settings → Environment Variables**, add `HF_TOKEN` (the secret token) and `HF_MODEL` (default: `Qwen/Qwen2.5-7B-Instruct:fastest`) for Production. Do not use a `VITE_` prefix for the token. Redeploy after adding the variables.
+4. In Vercel project **Settings → Environment Variables**, add `HF_TOKEN` (the secret token) and `HF_MODEL` (default: `meta-llama/Llama-3.1-8B-Instruct`) for Production. Set both for the **Production** environment, and redeploy after adding or changing them. Do not use a `VITE_` prefix for the token.
 5. Open the Vercel URL and check `/api/health`; it should report `"status":"ok"` and `"provider":"huggingface"`. The deployment is then publicly accessible at that URL. Add a custom domain in Vercel if desired.
 
 Hugging Face Inference Providers require a token and have usage limits/credits that can change; check the current plan and pricing before sharing the site widely. The chat endpoint also applies a best-effort per-IP request limit. Never commit the token or put it in browser-side environment variables.

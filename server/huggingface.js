@@ -1,6 +1,6 @@
 import { prepareChat } from "./chat-context.js";
 
-const getModel = () => process.env.HF_MODEL || "Qwen/Qwen2.5-7B-Instruct:fastest";
+const getModel = () => process.env.HF_MODEL || "meta-llama/Llama-3.1-8B-Instruct";
 const getToken = () => process.env.HF_TOKEN;
 const endpoint = "https://router.huggingface.co/v1/chat/completions";
 
