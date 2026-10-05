@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: yogi-buddy
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: CHAT_PROVIDER
+        value: huggingface
+      - key: HF_MODEL
+        value: Qwen/Qwen2.5-7B-Instruct:fastest
+      - key: HF_TOKEN
+        sync: false

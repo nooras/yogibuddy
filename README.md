@@ -29,6 +29,18 @@ Hugging Face Inference Providers require a token and have usage limits/credits t
 
 Chat text is sent to Hugging Face's hosted inference service in production. The app does not store it, but it is no longer processed only on the user's device. Avoid entering identifying or sensitive health details. Local development chat still uses the Ollama service configured by `OLLAMA_BASE_URL`.
 
+## Deploy on Render
+
+Render can host the frontend and Express API together as one web service. The `render.yaml` Blueprint builds the Vite app, starts Express with the Hugging Face provider, and checks `/api/health`.
+
+1. Push the project to GitHub and open the [Render dashboard](https://dashboard.render.com/).
+2. Choose **New → Blueprint**, connect the `nooras/yogibuddy` repository, and select the branch to deploy. Render reads `render.yaml` and creates the `yogi-buddy` web service.
+3. When prompted, set `HF_TOKEN` to a Hugging Face token with **Make calls to Inference Providers** permission. If Render does not prompt during Blueprint creation, open the service's **Environment** settings, add `HF_TOKEN`, and save.
+4. Wait for the build and deployment to finish. Open the generated `onrender.com` URL and check `/api/health`; it should return `"status":"ok"` and `"provider":"huggingface"`.
+5. For later updates, push to the connected branch; Render will build and deploy automatically. Add a custom domain from the service's **Settings** if desired.
+
+The Render service and Vercel project deploy independently from the same repository and can use the same Hugging Face token, stored separately in each host's environment settings. Never place the token in frontend variables or commit it.
+
 For local builds, run `npm run build` and preview with `npm run preview`. Serve the site over HTTPS for PWA installation and secure browser APIs; chat requires connectivity.
 
 ## What's included
@@ -40,7 +52,7 @@ For local builds, run `npm run build` and preview with `npm run preview`. Serve 
 - `agent/sample-conversations.md`: stress, headache, weight-loss, and family-session examples.
 - `server/chat-context.js`: shared validation and yoga reference context for chat providers.
 - `server/ollama.js`: validated local Ollama integration for development.
-- `server/huggingface.js`, `api/`: hosted open-model chat and health endpoints for Vercel.
+- `server/huggingface.js`, `api/`: hosted open-model chat and health endpoints for Vercel and Render.
 
 ## Privacy and safety
 
