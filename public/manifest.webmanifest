@@ -1,0 +1,12 @@
+{
+  "name": "Yogi Buddy — Yoga with Me",
+  "short_name": "Yogi Buddy",
+  "description": "Yogi Buddy — Yoga with Me. Your friendly yoga companion, wherever you are.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8f3",
+  "theme_color": "#f7f8f3",
+  "icons": [
+    { "src": "/yoga-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
