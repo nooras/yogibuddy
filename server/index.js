@@ -9,7 +9,12 @@ import { getHuggingFaceHealth, replyWithHuggingFace } from "./huggingface.js";
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
-const useHuggingFace = process.env.CHAT_PROVIDER === "huggingface";
+const defaultChatProvider = process.env.NODE_ENV === "production" ? "huggingface" : "ollama";
+const chatProvider = (process.env.CHAT_PROVIDER || defaultChatProvider).trim().toLowerCase();
+if (chatProvider !== "huggingface" && chatProvider !== "ollama") {
+  throw new Error(`Unsupported CHAT_PROVIDER "${chatProvider}". Use "huggingface" or "ollama".`);
+}
+const useHuggingFace = chatProvider === "huggingface";
 const chatHealth = useHuggingFace ? getHuggingFaceHealth : getOllamaHealth;
 const sendChatReply = useHuggingFace ? replyWithHuggingFace : replyToChat;
 const requestWindowMs = 10 * 60 * 1000;

@@ -35,7 +35,7 @@ Render can host the frontend and Express API together as one web service. The `r
 
 1. Push the project to GitHub and open the [Render dashboard](https://dashboard.render.com/).
 2. Choose **New → Blueprint**, connect the `nooras/yogibuddy` repository, and select the branch to deploy. Render reads `render.yaml` and creates the `yogi-buddy` web service.
-3. When prompted, set `HF_TOKEN` to a Hugging Face token with **Make calls to Inference Providers** permission. If Render does not prompt during Blueprint creation, open the service's **Environment** settings, add `HF_TOKEN`, and save.
+3. When prompted, set `HF_TOKEN` to a Hugging Face token with **Make calls to Inference Providers** permission. If Render does not prompt during Blueprint creation, open the service's **Environment** settings and set both `CHAT_PROVIDER=huggingface` and `HF_TOKEN`, then save. The production server defaults to Hugging Face if `CHAT_PROVIDER` is missing, but an existing `CHAT_PROVIDER=ollama` setting overrides that default.
 4. Wait for the build and deployment to finish. Open the generated `onrender.com` URL and check `/api/health`; it should return `"status":"ok"` and `"provider":"huggingface"`.
 5. For later updates, push to the connected branch; Render will build and deploy automatically. Add a custom domain from the service's **Settings** if desired.
 
