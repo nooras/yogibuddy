@@ -63,7 +63,12 @@ export async function replyWithHuggingFace(payload) {
     return { status: 502, body: { error: "The hosted model returned an unreadable response. Please try again." } };
   }
   if (!response.ok) {
-    const detail = typeof result.error === "string" ? result.error : `HTTP ${response.status}`;
+    const providerError = result.error;
+    const detail = typeof providerError === "string"
+      ? providerError
+      : typeof providerError?.message === "string"
+        ? providerError.message
+        : JSON.stringify(result);
     console.error(`Hugging Face inference returned ${response.status}: ${detail.slice(0, 300)}`);
     const message = response.status === 401 || response.status === 403
       ? "Hosted chat authentication failed. The site owner needs to check HF_TOKEN permissions."
